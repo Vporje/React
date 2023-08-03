@@ -1,0 +1,85 @@
+*{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid rgba(255, 0, 0, 0.582);
+    background-color: rgba(197, 196, 193, 0.18);
+}
+
+.logo img{
+    height: 65px;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+
+.nav-items > ul{
+    display: flex;
+    list-style-type: none;
+    /* margin: 10px; */
+}
+
+.nav-items > ul > li{
+    margin-right: 40px;
+    padding: 10px;
+    font-size: large;
+    font-weight: 800;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.restCard{
+    
+    padding: 5px;
+    width: 200px;
+    /* height: 310px; */
+    background-color: rgba(248, 188, 135, 0.774);
+    margin: 10px;
+}
+
+.restCard:hover{
+    border: 1px solid rgb(141, 140, 140);
+    cursor: pointer;;
+}
+
+.restCard > h3{
+    font-size: large;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.filter-btn{
+    margin: 20px;
+    cursor: pointer;
+}
+
+.restCard img{
+    box-sizing: border-box;
+    width: 100%;
+    height: 125px;
+    padding: 5px;
+}
+
+.restCard p{
+    margin: 5px 5px;
+}
+.restCard h3:hover{
+    border-bottom: 2px solid rgb(141, 140, 140);
+}
+
+.restContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    
+}
+
+.footer{
+    margin-top: 50px;
+    border: 1px solid rgb(35, 30, 41);
+    background-color: rgba(127, 255, 212, 0.363);
+    display: flex;
+    height: 80px;
+    justify-content: center;
+}
