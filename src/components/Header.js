@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { IMG_LOGO_URL } from "../Utils/constants";
 
 const Header = () => {
+
+  const [btn, setBtn] = useState('Login')
+
   return (
     <div className="header">
       <div className="logo">
@@ -12,11 +16,27 @@ const Header = () => {
           <li>About Us</li>
           <li>Category</li>
           <li>Cart</li>
+          <button
+            className="login-btn"
+          //   onClick={() => {
+          //     if (btn === 'Login'){
+          //     setBtn('Logout')
+          //     }
+          //     else{
+          //       setBtn('Login')
+          //     }
+          //   }
+          // }
+          onClick={()=>{
+            btn === "Login" ? setBtn('Logout') : setBtn('Login')
+          }}
+          >
+            {btn}
+          </button>
         </ul>
       </div>
     </div>
   );
 };
-
 
 export default Header;

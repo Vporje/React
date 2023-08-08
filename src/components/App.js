@@ -4,6 +4,7 @@ import Header from "./Header";
 import Body from "./Body";
 import Footer from "./Footer";
 
+
 /*
 const heading = React.createElement(
     'div',
@@ -141,7 +142,7 @@ const AppLayout = () => {
     <div className="app">
       <Header />
       <Body />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

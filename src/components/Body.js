@@ -1,80 +1,63 @@
 import RestoCard from "./RestoCard";
-import restaurantList from "../Utils/mockData";
-import { useState } from "react";
+// import restaurantList from "../Utils/mockData";
+import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
-  
-  // let rest = 15; // Normal varibale declared & initialised
-  // let [listofRestos] = useState([]);  //local State variable declared & initialized
-  const [listofRestos, setListOfRestos] = useState(restaurantList);  
+  const [listofRestos, setListOfRestos] = useState([]);
+  const [searchValue] = useState([""]);
 
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.5204303&lng=73.8567437&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    );
+    const json = await data.json();
+    setListOfRestos(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    // console.log(json);
+  };
 
-  // let listOfResto = [
-  //   {
-  //     info: {
-  //       id: "23719",
-  //       name: "McDonald's",
-  //       cloudinaryImageId: "ee5f8e06b300efc07c9fe3f4df40dfc4",
-  //       areaName: "Shivajinagar",
-  //       costForTwo: "₹400 for two",
-  //       cuisines: ["Burgers", "Beverages", "Cafe", "Desserts"],
-  //       avgRating: 4.3,
-  //     },
-  //   },
-  //   {
-  //     info: {
-  //       id: "23720",
-  //       name: "KFC",
-  //       cloudinaryImageId: "ee5f8e06b300efc07c9fe3f4df40dfc4",
-  //       areaName: "Kothrud",
-  //       costForTwo: "₹420 for two",
-  //       cuisines: ["Burgers", "Beverages", "Cafe", "Desserts"],
-  //       avgRating: 3.8,
-  //     },
-  //   },
-  //   {
-  //     info: {
-  //       id: "23722",
-  //       name: "Venky",
-  //       cloudinaryImageId: "ee5f8e06b300efc07c9fe3f4df40dfc4",
-  //       areaName: "Ravet",
-  //       costForTwo: "₹150 for two",
-  //       cuisines: ["Burgers", "Beverages", "Cafe", "Desserts"],
-  //       avgRating: 1.5,
-  //     },
-  //   },
-  //   {
-  //     info: {
-  //       id: "23721",
-  //       name: "Dominos",
-  //       cloudinaryImageId: "ee5f8e06b300efc07c9fe3f4df40dfc4",
-  //       areaName: "Baner",
-  //       costForTwo: "₹350 for two",
-  //       cuisines: ["Burgers", "Beverages", "Cafe", "Desserts"],
-  //       avgRating: 4.5,
-  //     },
-  //   },
-  // ];
+  useEffect(() => {
+    // console.log('useEffect is called')
+    fetchData();
+  }, []);
+
+  //Conditional Rendering
+  if (listofRestos.length === 0) {
+    return <Shimmer />;
+  }
 
   return (
     <div className="body">
-      <div>
+      <div className="wrapper">
         <button
           className="filter-btn"
           onClick={() => {
-          const filteredList = listofRestos.filter((resto) => {
-              return resto.info.avgRating > 4.3;
-            })
+            const filteredList = listofRestos.filter((resto) => {
+              return resto.info.avgRating > 4.0;
+            });
             setListOfRestos(filteredList);
           }}
-         
         >
           Top-Restaurants
         </button>
+        <div className="search">
+          <input className="inputSearch" type="text" value={searchValue} />
+          <button
+            className="searchBtn"
+            onClick={() => {
+              console.log(searchValue);
+            }} 
+            
+          >
+            Search
+          </button>
+        </div>
       </div>
       <div className="restContainer">
-        {listofRestos.map((restaurant) =>{
-          return <RestoCard key={restaurant.info.id} restodata={restaurant}/>;
+        {listofRestos.map((restaurant) => {
+          return <RestoCard key={restaurant.info.id} restodata={restaurant} />;
         })}
       </div>
     </div>
