@@ -1,9 +1,18 @@
-import React from "react";
+import React, {lazy, Suspense} from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./Header";
 import Body from "./Body";
 import Footer from "./Footer";
-
+import About from "./About";
+import Category from "./Category";
+import Error from "./Error";
+import RestoMenu from "./RestoMenu";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Shimmer from "./Shimmer";
+// import Grocery from "./Grocery";
+import { Provider } from "react-redux";
+import appStore from "../Utils/appStore";
+import Cart from "./Cart";
 
 /*
 const heading = React.createElement(
@@ -137,15 +146,57 @@ Footer
   - address
 */
 
+const Grocery = lazy(()=>{
+  return import("../components/Grocery") 
+})
+
 const AppLayout = () => {
+
   return (
+    <Provider store={appStore}>
     <div className="app">
       <Header />
-      <Body />
-      {/* <Footer /> */}
+      <Outlet />
+      <Footer />
     </div>
+    </Provider>
   );
 };
 
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/category",
+        element: <Category />,
+      },
+      {
+        path: "/grocery",
+        element: <Suspense fallback={<Shimmer />}><Grocery /></Suspense>,
+      },
+      {
+        path: "/restaurants/:restoId",
+        element: <RestoMenu />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      }
+    ],
+  },
+]);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<AppLayout />);
+
+root.render(<RouterProvider router={appRouter} />);
